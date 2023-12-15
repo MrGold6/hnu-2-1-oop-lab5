@@ -4,7 +4,6 @@
 #include <windows.h>
 
 using namespace std;
-//1. Для визначеної раніше ієрархії класів додати абстрактного клас та кілька обґрунтованих (не менше трьох) похідних класів.
 class Voucher {
 
 private:
@@ -17,14 +16,13 @@ public:
     string date;
     int cost;
 
-    //4. Кожен клас, що входить в ієрархію, що використовує відкрите наслідування, повинен містити принаймні одну віртуальну функцію.Функціональність зазначених функцій не повинна дублюватися.
     virtual void startUseIt() const = 0;
 
     Voucher();
     Voucher(string country, string city, string date, int cost, int code, string transport);
     Voucher(string country, string city, int date);
-    //3. На базі кожного похідного класу визначити віртуальні деструктори та продемонструвати відмінність їх роботи від невіртуальних деструкторів.
     virtual ~Voucher();
+
 
     //getters
     string getCountry();
@@ -49,7 +47,6 @@ public:
 
 
 
-//1. Для визначеної раніше ієрархії класів додати абстрактного клас та кілька обґрунтованих (не менше трьох) похідних класів.
 class PlusVoucher : public Voucher
 {
 private:
@@ -80,7 +77,6 @@ public:
     void setAll_Included(string all_Included);
 
 
-    //3. На базі кожного похідного класу визначити віртуальні деструктори та продемонструвати відмінність їх роботи від невіртуальних деструкторів.
     ~PlusVoucher() override {
         HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
         SetConsoleTextAttribute(hConsole, FOREGROUND_GREEN);
@@ -88,18 +84,105 @@ public:
         SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
 
     }
-    //4. Кожен клас, що входить в ієрархію, що використовує відкрите наслідування, повинен містити принаймні одну віртуальну функцію.Функціональність зазначених функцій не повинна дублюватися.
+
     void startUseIt() const override {
         std::cout << "PlusVoucher is using" << std::endl;
         std::cout << "Your number of compartment: " << number_of_compartment << std::endl;
         std::cout << "Here what is included:" << all_Included << std::endl;
     }
+
+    //1. Для наявних в проекті класів застосувати перевантаження Унарної операції. Визначити постфіксно та префіксно оператори «++» та «--» як функції-члени класу. Продемонструвати використання вказаних операцій.
+
+    // Перевантаження префіксного оператора "++"
+    PlusVoucher& operator++() {
+        cost++;
+        return *this;
+    };
+
+    // Перевантаження постфіксного оператора "++"
+    PlusVoucher operator++(int) {
+        PlusVoucher temp(*this);
+        number_of_compartment+=10;
+        return temp;
+   };
+
+    // Перевантаження префіксного оператора "--"
+    PlusVoucher& operator--() {
+        cost--;
+       return *this;
+   };
+
+    // Перевантаження постфіксного оператора "--"
+    PlusVoucher operator--(int) {
+        PlusVoucher temp(*this);
+        number_of_compartment-=10;
+        return temp;
+    };
+
+    //2. Для наявних в проекті класів застосувати перевантаження Бінарних операцій. Визначити оператори «+» та «-» як функції-члени класу. Продемонструвати використання вказаних операцій.
+    // Перевантаження бінарного оператора "+"
+    PlusVoucher operator+(const PlusVoucher& other) const {
+        PlusVoucher result = PlusVoucher();
+        result.setCost(cost + other.cost);
+        return result;
+    }
+
+    // Перевантаження бінарного оператора "-"
+    PlusVoucher operator-(const PlusVoucher& other) const {
+        PlusVoucher result = PlusVoucher();
+        result.setCost(cost - other.cost);
+        return result;
+    }
+
+    //3. Для наявних в проекті класів застосувати перевантаження операторів *, =, +=, -=, *=,[] - як функції-члени класу. Продемонструвати використання вказаних операцій.
+    // Перевантаження оператора "*"
+    PlusVoucher operator*(int multiplier) const {
+        PlusVoucher result(*this);
+        result.cost *= multiplier;
+        return result;
+    }
+
+    // Перевантаження оператора "=" (присвоєння)
+    PlusVoucher& operator=(const PlusVoucher& other) {
+        if (this != &other) {
+            cost = other.cost;
+        }
+        return *this;
+    }
+
+    // Перевантаження бінарного оператора "+="
+    PlusVoucher& operator+=(const PlusVoucher& other) {
+        cost += other.cost;
+        return *this;
+    }
+
+    // Перевантаження бінарного оператора "-="
+    PlusVoucher& operator-=(const PlusVoucher& other) {
+        cost -= other.cost;
+        return *this;
+    }
+
+
+    // Перевантаження бінарного оператора "*=" для масиву
+    PlusVoucher& operator*=(int multiplier) {
+        cost *= multiplier;
+        return *this;
+    }
+
+
+    void display() const {
+        std::cout << "PlusVoucher:" << std::endl;
+
+        cout << "Country: " << country << endl;
+        cout << "Cost: " << cost << endl;
+        cout << endl;
+    }
+
 };
 
 
 
 
-//1. Для визначеної раніше ієрархії класів додати абстрактного клас та кілька обґрунтованих (не менше трьох) похідних класів.
 class NormalVoucher : public Voucher
 {
 private:
@@ -129,7 +212,6 @@ public:
     void setInsuranse(string insuranse);
     void setBreakfast_Included(string breakfast_Included);
 
-    //3. На базі кожного похідного класу визначити віртуальні деструктори та продемонструвати відмінність їх роботи від невіртуальних деструкторів.
     ~NormalVoucher() override {
         HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
         SetConsoleTextAttribute(hConsole, FOREGROUND_GREEN);
@@ -138,17 +220,62 @@ public:
 
     }
 
-    //4. Кожен клас, що входить в ієрархію, що використовує відкрите наслідування, повинен містити принаймні одну віртуальну функцію.Функціональність зазначених функцій не повинна дублюватися.
     void startUseIt() const override {
         std::cout << "NormalVoucher is using" << std::endl;
         std::cout << "Your number of seat: " << number_of_seat << std::endl;
         std::cout << "Here your breakfast:" << breakfast_Included << std::endl;
     }
 
+    //1. Для наявних в проекті класів застосувати перевантаження Унарної операції. Визначити постфіксно та префіксно оператори «++» та «--» як функції-члени класу. Продемонструвати використання вказаних операцій.
+
+    // Перевантаження префіксного оператора "++"
+    NormalVoucher& operator++() {
+        cost++;
+        return *this;
+    }
+
+    // Перевантаження постфіксного оператора "++"
+    NormalVoucher operator++(int) {
+        number_of_seat += 10;
+        return *this;
+    }
+
+    // Перевантаження префіксного оператора "--"
+    NormalVoucher& operator--() {
+        cost--;
+        return *this;
+    }
+
+    // Перевантаження постфіксного оператора "--"
+    NormalVoucher operator--(int) {
+        number_of_seat -= 10;
+        return *this;
+    }
+
+    //2. Для наявних в проекті класів застосувати перевантаження Бінарних операцій. Визначити оператори «+» та «-» як функції-члени класу. Продемонструвати використання вказаних операцій.
+// Перевантаження бінарного оператора "+"
+    NormalVoucher operator+(const NormalVoucher& other) const {
+        NormalVoucher result = NormalVoucher();
+        result.setCost(cost + other.cost);
+        return result;
+    }
+
+    // Перевантаження бінарного оператора "-"
+    NormalVoucher operator-(const NormalVoucher& other) const {
+        NormalVoucher result = NormalVoucher();
+        result.setCost(cost - other.cost);
+        return result;
+    }
+
+    //4. В одному з класів створити шаблонну функцію.Продемонструвати її застосування.
+    template <typename U>
+    bool isEqual(const U& other) const {
+        return cost == other;
+    }
+
 };
 
 
-//1. Для визначеної раніше ієрархії класів додати абстрактного клас та кілька обґрунтованих (не менше трьох) похідних класів.
 class CutVoucher : public Voucher
 {
 private:
@@ -176,7 +303,6 @@ public:
     void setWifi_password(string wifi_password);
 
 
-    //3. На базі кожного похідного класу визначити віртуальні деструктори та продемонструвати відмінність їх роботи від невіртуальних деструкторів.
     ~CutVoucher() override {
         HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
         SetConsoleTextAttribute(hConsole, FOREGROUND_GREEN);
@@ -185,11 +311,11 @@ public:
 
     }
 
-    //4. Кожен клас, що входить в ієрархію, що використовує відкрите наслідування, повинен містити принаймні одну віртуальну функцію.Функціональність зазначених функцій не повинна дублюватися.
     void startUseIt() const override {
         std::cout << "CutVoucher is using" << std::endl;
         std::cout << "You was connected to Wifi" << std::endl;
     }
+
 
 };
 

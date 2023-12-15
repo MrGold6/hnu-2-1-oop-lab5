@@ -130,6 +130,7 @@
     <ClCompile Include="CutVoucher.cpp" />
     <ClCompile Include="Human.cpp" />
     <ClCompile Include="lab2.cpp" />
+    <ClCompile Include="MyTemplate.h" />
     <ClCompile Include="NormalVoucher.cpp" />
     <ClCompile Include="PlusVoucher.cpp" />
     <ClCompile Include="Student.cpp" />

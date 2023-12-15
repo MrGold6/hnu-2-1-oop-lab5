@@ -50,6 +50,17 @@ public:
         cout << "Welcome to University. University was created at " << dateOfCreation << endl;
     }
 
+    //3. Для наявних в проекті класів застосувати перевантаження операторів *, =, +=, -=, *=,[] - як функції-члени класу. Продемонструвати використання вказаних операцій.
+    // Перевантаження оператора "[]"
+    Student* operator[](size_t index) {
+        if (index < students.size()) {
+            return students[index];
+        }
+        else {
+            return students[0];
+        }
+    }
+
 };
 
 //2. Реалізувати віртуальне наслідування.

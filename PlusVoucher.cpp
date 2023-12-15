@@ -28,6 +28,7 @@ PlusVoucher PlusVoucher::getCopy() {
         number_of_compartment, insuranse, all_Included);
 }
 
+
 int PlusVoucher::getNumber_of_compartment() {
     return number_of_compartment;
 }

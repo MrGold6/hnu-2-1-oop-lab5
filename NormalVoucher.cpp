@@ -117,6 +117,6 @@ NormalVoucher NormalVoucher::readFromFile(string fileName) {
         return NormalVoucher();
     }
 
-    return rstu;    
+    return rstu;
 }
 
