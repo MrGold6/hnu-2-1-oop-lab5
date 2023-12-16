@@ -54,5 +54,9 @@ public:
     using Human::getRNTRC;
     using Human::setRNTRC;
 
+
+    bool operator<(const Student& other) const {
+        return name < other.name;
+    }
 };
 
